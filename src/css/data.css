@@ -1,0 +1,21 @@
+#data-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.data-cards{
+    width: 600px;
+    padding:10px;
+    border-radius: 10px;
+    margin: 12px;
+    box-shadow: 3px 3px 15px 3px rgb(67, 95, 255);
+}
+
+#card-info{
+    background-color: rgb(67, 95, 255);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}

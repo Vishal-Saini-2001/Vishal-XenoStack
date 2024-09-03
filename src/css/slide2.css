@@ -1,0 +1,37 @@
+.slide-2 h1{
+    font-size:60px
+}
+
+.slide-2 p{
+    font-size:20px
+}
+
+@media screen and (max-width:700px) {
+    .slide-2 h1{
+        font-size: 40px;
+    }
+
+    .slide-2 p{
+        font-size:20px
+    }
+
+    .slide-2 div img{
+        width:500px
+    }
+    
+}
+
+@media screen and (max-width:460px) {
+    .slide-2 h1{
+        font-size: 30px;
+    }
+
+    .slide-2 p{
+        font-size:15px
+    }
+
+    .slide-2 div img{
+        width:300px
+    }
+    
+}
