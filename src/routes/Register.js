@@ -22,7 +22,7 @@ const Register = () => {
         e.preventDefault();
         setIsRegistered(true)
         console.log(data)
-        await axios.post("http://localhost:8080/register",data)
+        await axios.post("https://xenostack-backend.onrender.com/register",data)
         .then((res)=>{
           alert(res.data.msg)
           if(res.status == 200){

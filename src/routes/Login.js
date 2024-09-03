@@ -17,7 +17,7 @@ const Login = () => {
         const body = {
           token
         }
-        await axios.post("http://localhost:8080/authenticate", body)
+        await axios.post("https://xenostack-backend.onrender.com/authenticate", body)
           .then(resp => {
             console.log(resp)
             navigate('/data')
@@ -51,7 +51,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsRegistered(true)
-    await axios.post("http://localhost:8080/login", data)
+    await axios.post("https://xenostack-backend.onrender.com/login", data)
       .then((res) => {
         alert(res.data.msg)
         if (res.status == 200) {
