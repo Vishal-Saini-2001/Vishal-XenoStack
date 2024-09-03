@@ -10,6 +10,11 @@ const Data = () => {
   const auth = btoa(`${apiKey}:${apiSecret}`);
   const navigate = useNavigate()
 
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate('/login')
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       await axios.get('https://api.simplyrets.com/properties?openHouse=true', {
@@ -26,10 +31,35 @@ const Data = () => {
         });
     }
     fetchData()
+
+    const token = localStorage.getItem("token");
+
+    const authenticate = async () => {
+
+      if (token) {
+        const body = {
+          token
+        }
+        await axios.post("http://localhost:8080/authenticate", body)
+          .then(resp => {
+            console.log(resp)
+          })
+          .catch(error => {
+            console.log(error);
+            localStorage.removeItem("token")
+          })
+
+      } else {
+        navigate('/login')
+      }
+
+    }
+
+    authenticate()
   }, [])
   return (
     <div>
-      <button className='m-3 btn btn-primary px-3' onClick={() => navigate('/login')}>log out</button>
+      <button className='m-3 btn btn-primary px-3' onClick={handleLogout}>log out</button>
       <h1 className='fw-bold text-center my-3 text-primary'>Real State Properties</h1>
       <div id='data-container'>
         {(data) ? data.map((data, i) => {
@@ -39,7 +69,7 @@ const Data = () => {
                 <img src={data.photos[1]} width={250} className='p-2'></img></center>
               <div id='card-info'>
                 <h3>Address</h3>
-                <hr/>
+                <hr />
                 <p><b>Full:</b> {data.address.full}</p>
                 <p><b>City:</b> {data.address.city}</p>
                 <p><b>State:</b> {data.address.state}</p>
@@ -52,7 +82,7 @@ const Data = () => {
           )
         }) : <h2>Loading...</h2>}
       </div>
-    </div>
+    </div >
   )
 }
 

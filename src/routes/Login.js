@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import login from '../assets/login.svg'
 import '../css/login.css'
 import { useNavigate } from 'react-router-dom'
@@ -6,6 +6,37 @@ import axios from 'axios'
 
 const Login = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    const authenticate = async () => {
+
+      if (token) {
+        const body = {
+          token
+        }
+        await axios.post("http://localhost:8080/authenticate", body)
+          .then(resp => {
+            console.log(resp)
+            navigate('/data')
+          })
+          .catch(error => {
+            console.log(error);
+            localStorage.removeItem("token")
+          })
+
+      } else {
+        navigate('/login')
+      }
+
+    }
+
+    authenticate()
+
+  }, []);
+
   const [isRegistered, setIsRegistered] = useState(false)
   const [data, setData] = useState({
     email: "",
@@ -24,6 +55,7 @@ const Login = () => {
       .then((res) => {
         alert(res.data.msg)
         if (res.status == 200) {
+          localStorage.setItem("token", res.data.token)
           navigate('/data')
         }
       })
@@ -45,7 +77,7 @@ const Login = () => {
             <br />
             <input className='login-inputs' type='password' name='password' value={data.password} required onChange={handleInputs} placeholder='Enter password'></input>
             <br />
-            <button className='btn btn-primary m-3' type='submit'>{isRegistered?"Please Wait...":"Login"}</button>
+            <button className='btn btn-primary m-3' type='submit'>{isRegistered ? "Please Wait..." : "Login"}</button>
           </form>
           <p className='mx-3'>Don't have an account? </p>
           <button className='btn btn-success m-3' onClick={() => navigate('/register')}>Register here</button>
